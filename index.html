@@ -176,38 +176,67 @@
   .tab-panel.active{display:block;}
   .tab-panel h3{font-size:1.3rem; margin-bottom:10px;}
 
-/* ---- wheel ---- */
-  .wheel-section{display:flex; flex-wrap:wrap; gap:44px; align-items:center; justify-content:center; margin-top:10px;}
-  .wheel-wrap{position:relative; width:min(360px,80vw); height:min(360px,80vw); flex-shrink:0;}
+  /* ---- wheel ---- */
+  .wheel-section{
+    display:flex; flex-wrap:wrap; gap:44px; align-items:center;
+    justify-content:center; margin-top:10px;
+  }
+  .wheel-wrap{
+    position:relative; width:min(360px,80vw); aspect-ratio:1/1;
+    flex-shrink:0;
+  }
   .wheel-hub{
-    position:absolute; top:50%; left:50%; width:34px; height:34px; border-radius:50%;
-    background:var(--ink); border:3px solid var(--cream); transform:translate(-50%,-50%); z-index:4;
+    position:absolute; top:50%; left:50%; width:34px; height:34px;
+    border-radius:50%; background:var(--ink); border:3px solid var(--cream);
+    transform:translate(-50%,-50%); z-index:4;
     box-shadow:0 0 0 2px var(--ink);
+    pointer-events:none;
   }
   .wheel-svg{
     width:100%; height:100%; display:block; border-radius:50%;
     filter:drop-shadow(0 4px 0 rgba(32,19,42,0.25));
     transition:transform 3.4s cubic-bezier(.13,.72,.14,1);
+    will-change:transform;
   }
-  .wheel-svg text{ font-family:'Space Mono',monospace; font-weight:700; text-transform:uppercase; }
+  .wheel-svg .slice{
+    stroke:var(--ink); stroke-width:2.5; vector-effect:non-scaling-stroke;
+  }
+  .wheel-svg text{
+    font-family:'Space Mono',monospace; font-weight:700;
+    text-transform:uppercase; fill:var(--ink);
+    font-size:11px; pointer-events:none;
+  }
+  .wheel-svg .light-text{fill:#fff;}
   .pointer{
     position:absolute; top:-6px; left:50%; transform:translateX(-50%);
-    width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
-    border-top:24px solid var(--ink); z-index:5;
+    width:0; height:0; border-left:15px solid transparent;
+    border-right:15px solid transparent; border-top:24px solid var(--ink);
+    z-index:5; pointer-events:none;
   }
   .pointer::after{
-    content:""; position:absolute; top:-24px; left:-11px; width:0; height:0;
-    border-left:11px solid transparent; border-right:11px solid transparent; border-top:17px solid var(--pink);
+    content:""; position:absolute; top:-24px; left:-11px;
+    width:0; height:0; border-left:11px solid transparent;
+    border-right:11px solid transparent; border-top:17px solid var(--pink);
   }
   .wheel-panel{max-width:340px;}
+  .wheel-panel p{margin-top:0;}
   .spin-btn{
-    font-family:'Unbounded',sans-serif; font-weight:700; font-size:0.95rem; padding:14px 26px; border-radius:14px;
-    background:var(--ink); color:var(--cream); border:none; cursor:pointer; margin-top:18px;
+    font-family:'Unbounded',sans-serif; font-weight:700; font-size:0.95rem;
+    padding:14px 26px; border-radius:14px; background:var(--ink);
+    color:var(--cream); border:none; cursor:pointer; margin-top:18px;
     box-shadow:5px 5px 0 var(--pink);
   }
-  .spin-btn:active{transform:translate(2px,2px); box-shadow:3px 3px 0 var(--pink);}
+  .spin-btn:active:not(:disabled){
+    transform:translate(2px,2px); box-shadow:3px 3px 0 var(--pink);
+  }
   .spin-btn:disabled{opacity:0.6; cursor:default;}
-  #wheel-result{margin-top:16px; font-family:'Space Mono',monospace; min-height:1.4em; font-weight:700;}
+  #wheel-result{
+    margin-top:16px; font-family:'Space Mono',monospace;
+    min-height:1.4em; font-weight:700;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .wheel-svg{transition-duration:0.01ms;}
+  }
 
   /* ---- craft badges row ---- */
   /* ---- sudoku ---- */
@@ -659,22 +688,25 @@
     </div>
     <div class="wheel-section reveal">
       <div class="wheel-wrap">
-        <div class="pointer"></div>
-        <div class="wheel" id="wheel">
-          <span style="transform:rotate(22.5deg) translate(74px,0);">Crochet</span>
-          <span style="transform:rotate(67.5deg) translate(74px,0);">Clay</span>
-          <span style="transform:rotate(112.5deg) translate(74px,0);">Punch needle</span>
-          <span style="transform:rotate(157.5deg) translate(74px,0);">Documentary</span>
-          <span style="transform:rotate(202.5deg) translate(74px,0);">Children's book</span>
-          <span style="transform:rotate(247.5deg) translate(74px,0);">Cooking</span>
-          <span style="transform:rotate(292.5deg) translate(74px,0);">Travel + Igbo</span>
-          <span style="transform:rotate(337.5deg) translate(74px,0);">Natural hair</span>
-        </div>
+        <div class="pointer" aria-hidden="true"></div>
+
+        <svg
+          class="wheel-svg"
+          id="wheel-svg"
+          viewBox="0 0 360 360"
+          role="img"
+          aria-label="Spin the wheel of Chinonye's interests"
+        >
+          <g id="wheel-rotor"></g>
+        </svg>
+
+        <div class="wheel-hub" aria-hidden="true"></div>
       </div>
+
       <div class="wheel-panel">
         <p>Eight things I love talking about. Spin for a starting point — I promise I have a story for each one.</p>
-        <button class="spin-btn" id="spin-btn">Spin the wheel</button>
-        <div id="wheel-result"></div>
+        <button class="spin-btn" id="spin-btn" type="button">Spin the wheel</button>
+        <div id="wheel-result" aria-live="polite"></div>
       </div>
     </div>
     <div class="badges reveal">
@@ -1025,30 +1057,165 @@
     buildBoard();
   })();
 
-  // spinning wheel
-  const wheel = document.getElementById('wheel');
-  const spinBtn = document.getElementById('spin-btn');
-  const resultEl = document.getElementById('wheel-result');
-  const topics = ['Crochet','Clay','Punch needle','Documentary film','Children\'s book','Cooking','Travel + Igbo','Natural hair'];
-  let currentRotation = 0;
-  let spinning = false;
-  spinBtn.addEventListener('click', ()=>{
-    if(spinning) return;
-    spinning = true;
-    resultEl.textContent = '';
-    const segment = 45;
-    const randomExtra = Math.floor(Math.random()*360);
-    const fullSpins = 5 * 360;
-    currentRotation += fullSpins + randomExtra;
-    wheel.style.transform = 'rotate(' + currentRotation + 'deg)';
-    setTimeout(()=>{
-      spinning = false;
-      const normalized = ((currentRotation % 360) + 360) % 360;
-      const angleAtPointer = (360 - normalized) % 360;
-      const index = Math.floor(angleAtPointer / segment) % topics.length;
-      resultEl.textContent = '→ Let\'s talk about: ' + topics[index];
-    }, 3300);
-  });
+  // spinning wheel — SVG version with exact result matching
+  (function(){
+    const wheel = document.getElementById('wheel-svg');
+    const rotor = document.getElementById('wheel-rotor');
+    const spinBtn = document.getElementById('spin-btn');
+    const resultEl = document.getElementById('wheel-result');
+
+    if(!wheel || !rotor || !spinBtn || !resultEl) return;
+
+    const topics = [
+      'Crochet',
+      'Clay',
+      'Punch needle',
+      'Documentary',
+      "Children's book",
+      'Cooking',
+      'Travel + Igbo',
+      'Natural hair'
+    ];
+
+    const colors = [
+      'var(--pink)',
+      'var(--marigold)',
+      'var(--teal)',
+      'var(--grape)',
+      'var(--pink-deep)',
+      'var(--lime)',
+      'var(--pink)',
+      'var(--marigold)'
+    ];
+
+    const cx = 180;
+    const cy = 180;
+    const radius = 170;
+    const segmentAngle = 360 / topics.length;
+
+    function polarPoint(angleDeg, r){
+      const angle = angleDeg * Math.PI / 180;
+      return {
+        x: cx + r * Math.cos(angle),
+        y: cy + r * Math.sin(angle)
+      };
+    }
+
+    function createSlicePath(startDeg, endDeg){
+      const a = polarPoint(startDeg, radius);
+      const b = polarPoint(endDeg, radius);
+      return `M ${cx} ${cy} L ${a.x.toFixed(3)} ${a.y.toFixed(3)} A ${radius} ${radius} 0 0 1 ${b.x.toFixed(3)} ${b.y.toFixed(3)} Z`;
+    }
+
+    function addText(label, centerDeg, index){
+      const point = polarPoint(centerDeg, 108);
+      const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+      text.setAttribute('x', point.x);
+      text.setAttribute('y', point.y);
+      text.setAttribute('text-anchor','middle');
+      text.setAttribute('dominant-baseline','middle');
+
+      if(index === 2 || index === 3 || index === 4 || index === 6 || index === 7){
+        text.classList.add('light-text');
+      }
+
+      const words = label.split(' ');
+      if(label.length > 11 && words.length > 1){
+        const splitAt = Math.ceil(words.length / 2);
+        const line1 = words.slice(0,splitAt).join(' ');
+        const line2 = words.slice(splitAt).join(' ');
+
+        const t1 = document.createElementNS('http://www.w3.org/2000/svg','tspan');
+        t1.setAttribute('x', point.x);
+        t1.setAttribute('dy','-0.45em');
+        t1.textContent = line1;
+
+        const t2 = document.createElementNS('http://www.w3.org/2000/svg','tspan');
+        t2.setAttribute('x', point.x);
+        t2.setAttribute('dy','1.15em');
+        t2.textContent = line2;
+
+        text.append(t1,t2);
+      } else {
+        text.textContent = label;
+      }
+
+      rotor.appendChild(text);
+    }
+
+    // Build the wheel so segment 0 starts at the top.
+    topics.forEach((topic,index)=>{
+      const startDeg = -90 + index * segmentAngle;
+      const endDeg = startDeg + segmentAngle;
+      const centerDeg = startDeg + segmentAngle / 2;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', createSlicePath(startDeg,endDeg));
+      path.setAttribute('fill', colors[index]);
+      path.setAttribute('class','slice');
+      rotor.appendChild(path);
+
+      addText(topic,centerDeg,index);
+    });
+
+    let currentRotation = 0;
+    let spinning = false;
+
+    function normalize(deg){
+      return ((deg % 360) + 360) % 360;
+    }
+
+    spinBtn.addEventListener('click',()=>{
+      if(spinning) return;
+
+      spinning = true;
+      spinBtn.disabled = true;
+      resultEl.textContent = 'spinning…';
+
+      // Pick the winner FIRST, then rotate that segment's center exactly to the pointer.
+      const selectedIndex = Math.floor(Math.random() * topics.length);
+
+      // Center of selected segment in the SVG before rotation.
+      const selectedCenter = -90 + selectedIndex * segmentAngle + segmentAngle / 2;
+
+      // We want selectedCenter + finalRotation ≡ -90° (the pointer position).
+      const desiredNormalizedRotation = normalize(-90 - selectedCenter);
+      const currentNormalizedRotation = normalize(currentRotation);
+
+      // Positive clockwise delta to reach desired rotation.
+      let delta = normalize(desiredNormalizedRotation - currentNormalizedRotation);
+
+      // Add 5–7 full turns for a satisfying spin.
+      const extraTurns = (5 + Math.floor(Math.random() * 3)) * 360;
+      currentRotation += extraTurns + delta;
+
+      // Force a reflow so repeated spins always animate cleanly.
+      void wheel.getBoundingClientRect();
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
+
+      const finish = ()=>{
+        if(!spinning) return;
+        spinning = false;
+        spinBtn.disabled = false;
+        resultEl.textContent = `→ Let's talk about: ${topics[selectedIndex]}`;
+      };
+
+      // transitionend is more reliable than relying only on a timeout.
+      const onTransitionEnd = (event)=>{
+        if(event.propertyName !== 'transform') return;
+        wheel.removeEventListener('transitionend',onTransitionEnd);
+        finish();
+      };
+
+      wheel.addEventListener('transitionend',onTransitionEnd);
+
+      // Fallback in case transitionend does not fire.
+      setTimeout(()=>{
+        wheel.removeEventListener('transitionend',onTransitionEnd);
+        finish();
+      },3700);
+    });
+  })();
 
 
   // ------------------------------------------------------------
