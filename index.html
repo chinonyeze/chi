@@ -1335,6 +1335,18 @@
     ]
   }));
 
+  /* ---------------------------------
+   TRIP PHOTOS + VIDEOS
+---------------------------------- */
+
+trips.find(t => t.id === 'phoenix').media = [
+  {
+    type: 'image',
+    src: 'assets/trips/arizona/arizonadinner.JPG',
+    caption: 'Dinner in Arizona ♡'
+  }
+];
+
   // EXAMPLE: once you add real files, you can replace one trip's empty media array like this:
   // trips.find(t => t.id === 'kenya').media = [
   //   {type:'image', src:'assets/trips/kenya/photo-1.jpg', caption:'day one ♡'},
