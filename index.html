@@ -176,22 +176,28 @@
   .tab-panel.active{display:block;}
   .tab-panel h3{font-size:1.3rem; margin-bottom:10px;}
 
-  /* ---- wheel ---- */
+/* ---- wheel ---- */
   .wheel-section{display:flex; flex-wrap:wrap; gap:44px; align-items:center; justify-content:center; margin-top:10px;}
-  .wheel-wrap{position:relative; width:min(320px,70vw); height:min(320px,70vw); flex-shrink:0;}
-  .wheel{
-    width:100%; height:100%; border-radius:50%; border:5px solid var(--ink); position:relative; overflow:hidden;
-    transition:transform 3.2s cubic-bezier(.17,.67,.2,1);
-    background:conic-gradient(var(--pink) 0deg 45deg, var(--marigold) 45deg 90deg, var(--teal) 90deg 135deg, var(--grape) 135deg 180deg, var(--pink-deep) 180deg 225deg, var(--lime) 225deg 270deg, var(--pink) 270deg 315deg, var(--marigold) 315deg 360deg);
+  .wheel-wrap{position:relative; width:min(360px,80vw); height:min(360px,80vw); flex-shrink:0;}
+  .wheel-hub{
+    position:absolute; top:50%; left:50%; width:34px; height:34px; border-radius:50%;
+    background:var(--ink); border:3px solid var(--cream); transform:translate(-50%,-50%); z-index:4;
+    box-shadow:0 0 0 2px var(--ink);
   }
-  .wheel span{
-    position:absolute; left:50%; top:50%; transform-origin:0 0; width:140px; margin-left:0;
-    font-family:'Space Mono',monospace; font-size:0.7rem; font-weight:700; text-transform:uppercase; color:var(--ink);
+  .wheel-svg{
+    width:100%; height:100%; display:block; border-radius:50%;
+    filter:drop-shadow(0 4px 0 rgba(32,19,42,0.25));
+    transition:transform 3.4s cubic-bezier(.13,.72,.14,1);
   }
+  .wheel-svg text{ font-family:'Space Mono',monospace; font-weight:700; text-transform:uppercase; }
   .pointer{
-    position:absolute; top:-14px; left:50%; transform:translateX(-50%);
-    width:0; height:0; border-left:14px solid transparent; border-right:14px solid transparent;
-    border-top:22px solid var(--ink); z-index:5;
+    position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:0; height:0; border-left:15px solid transparent; border-right:15px solid transparent;
+    border-top:24px solid var(--ink); z-index:5;
+  }
+  .pointer::after{
+    content:""; position:absolute; top:-24px; left:-11px; width:0; height:0;
+    border-left:11px solid transparent; border-right:11px solid transparent; border-top:17px solid var(--pink);
   }
   .wheel-panel{max-width:340px;}
   .spin-btn{
@@ -200,7 +206,8 @@
     box-shadow:5px 5px 0 var(--pink);
   }
   .spin-btn:active{transform:translate(2px,2px); box-shadow:3px 3px 0 var(--pink);}
-  #wheel-result{margin-top:16px; font-family:'Space Mono',monospace; min-height:1.4em;}
+  .spin-btn:disabled{opacity:0.6; cursor:default;}
+  #wheel-result{margin-top:16px; font-family:'Space Mono',monospace; min-height:1.4em; font-weight:700;}
 
   /* ---- craft badges row ---- */
   /* ---- sudoku ---- */
