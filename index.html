@@ -901,7 +901,86 @@
       document.querySelector('.tab-panel[data-panel="'+btn.dataset.tab+'"]').classList.add('active');
     });
   });
-
+ 
+  // ------------------------------------------------------------
+  // DAILY WISDOM — a verse reference + Igbo proverb that change once
+  // a day, picked from the arrays below using the day of the year.
+  // Nothing here is copied Amplified Bible text (that's copyrighted) —
+  // just the reference, a one-line theme in plain words, and a link
+  // out to read the real Amplified wording on BibleGateway.
+  //
+  // To add more verses: add {ref:'Book Chapter:Verse', theme:'...'}
+  // To add/fix proverbs: edit the igboProverbs array — please double
+  // check spelling, tone marks, and translation, since this list was
+  // compiled from general knowledge, not a native-speaker review.
+  // ------------------------------------------------------------
+  (function(){
+    const verses = [
+      {ref:'Philippians 4:13', theme:'On finding strength beyond your own.'},
+      {ref:'Jeremiah 29:11', theme:'On a future that is still being written for good.'},
+      {ref:'Psalm 23:1', theme:'On having everything you truly need.'},
+      {ref:'Isaiah 41:10', theme:'On not facing hard things alone.'},
+      {ref:'Romans 8:28', theme:'On things working together for good, even the messy parts.'},
+      {ref:'Proverbs 3:5-6', theme:'On trusting a bigger plan than your own understanding.'},
+      {ref:'Joshua 1:9', theme:'On courage when the way ahead is unclear.'},
+      {ref:'Psalm 46:1', theme:'On having somewhere steady to run to.'},
+      {ref:'John 3:16', theme:'On being loved on purpose, not by accident.'},
+      {ref:'1 Corinthians 13:4-7', theme:'On what real love actually looks like day to day.'},
+      {ref:'Psalm 121:1-2', theme:'On where your help actually comes from.'},
+      {ref:'Philippians 4:6-7', theme:'On trading worry for peace that doesn\'t quite make sense.'},
+      {ref:'2 Timothy 1:7', theme:'On a spirit of power, love, and a sound mind — not fear.'},
+      {ref:'Matthew 6:33', theme:'On getting priorities in the right order.'},
+      {ref:'Psalm 34:18', theme:'On being close to the brokenhearted.'},
+      {ref:'Isaiah 40:31', theme:'On renewed strength for those who wait well.'},
+      {ref:'Colossians 3:23', theme:'On doing the work in front of you wholeheartedly.'},
+      {ref:'Psalm 27:1', theme:'On fear losing its grip when you know who\'s with you.'},
+      {ref:'Hebrews 11:1', theme:'On faith as substance, not just a feeling.'},
+      {ref:'James 1:2-4', theme:'On trials quietly building something in you.'},
+      {ref:'Psalm 91:1-2', theme:'On resting in shelter instead of staying on guard.'},
+      {ref:'Proverbs 16:3', theme:'On handing your plans over instead of gripping them.'},
+      {ref:'1 Peter 5:7', theme:'On casting your cares instead of carrying them.'},
+      {ref:'Galatians 6:9', theme:'On not giving up right before the harvest.'},
+      {ref:'Psalm 139:14', theme:'On being made with intention, not by accident.'}
+    ];
+ 
+    const igboProverbs = [
+      {igbo:'Egbe bere, ugo bere.', en:'"Let the kite perch, and let the eagle perch too."', meaning:'Meaning: live and let live — there\'s room for more than one person to thrive.'},
+      {igbo:'Onye kwe, chi ya ekwe.', en:'"When a person agrees, their chi (personal spirit) agrees too."', meaning:'Meaning: where there\'s a will, there\'s a way — determination opens doors.'},
+      {igbo:'Aka nri kwọọ aka ekpe, aka ekpe akwọọ aka nri.', en:'"The right hand washes the left, and the left washes the right."', meaning:'Meaning: mutual help and cooperation — we need each other.'},
+      {igbo:'Nwata kwoo aka, o soro okenye rie nri.', en:'"If a child washes their hands clean, they get to eat with the elders."', meaning:'Meaning: good conduct and preparation earn you a seat at the table.'},
+      {igbo:'Otu onye adịghị agba izu.', en:'"One person alone cannot hold a council."', meaning:'Meaning: some decisions need more than one voice — community matters.'},
+      {igbo:'Onye aghala nwanne ya.', en:'"Let no one abandon their sibling."', meaning:'Meaning: family loyalty and showing up for your own.'},
+      {igbo:'Ọ bụ na nkịtị ka e ji ama ọgaranya.', en:'"It is in quiet, ordinary days that wealth of character is known."', meaning:'Meaning: who you are shows in the small, unremarkable moments too.'},
+      {igbo:'Anaghị agba afọ ọsọ eme ihe ukwu.', en:'"You cannot rush something great into being."', meaning:'Meaning: worthwhile things take patience and time.'}
+    ];
+ 
+    function dayOfYear(){
+      const now = new Date();
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff = now - start;
+      return Math.floor(diff / 86400000);
+    }
+    const idx = dayOfYear();
+ 
+    const verse = verses[idx % verses.length];
+    const verseRefEl = document.getElementById('verse-ref');
+    const verseThemeEl = document.getElementById('verse-theme');
+    const verseLinkEl = document.getElementById('verse-link');
+    if(verseRefEl){
+      verseRefEl.textContent = verse.ref;
+      verseThemeEl.textContent = verse.theme;
+      verseLinkEl.href = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(verse.ref) + '&version=AMP';
+    }
+ 
+    const proverb = igboProverbs[idx % igboProverbs.length];
+    const proverbIgboEl = document.getElementById('proverb-igbo');
+    if(proverbIgboEl){
+      proverbIgboEl.textContent = proverb.igbo;
+      document.getElementById('proverb-en').textContent = proverb.en;
+      document.getElementById('proverb-meaning').textContent = proverb.meaning;
+    }
+  })();
+ 
   // sudoku
   (function(){
     const puzzles = [
