@@ -456,6 +456,102 @@
   .screen-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding:22px;}.screen-card{position:relative;min-width:0;perspective:1100px;}.screen-card-inner{position:relative;min-height:390px;transform-style:preserve-3d;transition:transform .55s ease;}.screen-card.flipped .screen-card-inner{transform:rotateY(180deg);}.screen-face{position:absolute;inset:0;backface-visibility:hidden;border:2px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:5px 5px 0 var(--ink);background:#fff;}.screen-front{display:flex;flex-direction:column;}.cover-wrap{position:relative;height:280px;overflow:hidden;background:linear-gradient(135deg,var(--pink-pale),#ffe5ad);display:grid;place-items:center;}.screen-cover{width:100%;height:100%;object-fit:cover;display:none;}.screen-cover.loaded{display:block;}.cover-fallback{position:absolute;inset:0;display:grid;place-items:center;padding:20px;text-align:center;font-family:'Unbounded',sans-serif;font-weight:900;font-size:1rem;color:var(--ink);background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.9),transparent 24%),linear-gradient(135deg,var(--pink),var(--marigold));}.screen-cover.loaded + .cover-fallback{display:none;}.rating-stamp{position:absolute;top:10px;right:10px;z-index:2;background:#fff4a8;border:2px solid var(--ink);border-radius:8px;padding:7px 9px;font-family:'Space Mono',monospace;font-weight:700;font-size:.72rem;transform:rotate(3deg);box-shadow:3px 3px 0 var(--ink);}.screen-meta{padding:15px 15px 16px;flex:1;display:flex;flex-direction:column;}.screen-meta .kind{font-family:'Space Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:.06em;color:var(--pink-deep);}.screen-meta h3{font-size:.95rem;margin:6px 0 8px;}.screen-meta p{font-size:.78rem;margin:0;color:rgba(32,19,42,.7);}.screen-hint{margin-top:auto;padding-top:12px;font-family:'Space Mono',monospace;font-size:.62rem;opacity:.55;}.screen-back{transform:rotateY(180deg);background:var(--ink);color:var(--cream);padding:22px;display:flex;flex-direction:column;justify-content:center;}.screen-back .big-score{font-family:'Unbounded',sans-serif;font-size:2rem;color:var(--pink);margin-bottom:12px;}.screen-back h3{font-size:1rem;margin:0 0 10px;}.screen-back p{font-size:.82rem;line-height:1.6;margin:0;opacity:.86;}.screen-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px;}.mini-btn{border:2px solid var(--cream);color:var(--cream);background:transparent;border-radius:999px;padding:8px 11px;font-family:'Space Mono',monospace;font-size:.65rem;}.mini-btn.primary{background:var(--pink);border-color:var(--pink);color:#fff;}.add-fave-wrap{border-top:2px dashed var(--ink);padding:20px 22px 24px;background:#fff9f2;}.add-fave-wrap summary{cursor:pointer;font-family:'Unbounded',sans-serif;font-weight:700;list-style:none;display:flex;align-items:center;gap:8px;}.add-fave-wrap summary::-webkit-details-marker{display:none;}.add-fave-wrap summary::before{content:'＋';width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--pink);color:#fff;border:2px solid var(--ink);}.fave-form{display:grid;grid-template-columns:1.4fr .7fr .7fr 1fr;gap:10px;margin-top:16px;}.fave-form input,.fave-form select,.fave-form textarea{border:2px solid var(--ink);border-radius:10px;padding:11px 12px;background:#fff;font-family:'Work Sans',sans-serif;font-size:.85rem;min-width:0;}.fave-form textarea{grid-column:1/-1;min-height:90px;resize:vertical;}.fave-form .form-actions{grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}.save-fave{border:2px solid var(--ink);border-radius:999px;padding:10px 16px;background:var(--pink);color:#fff;font-family:'Unbounded',sans-serif;font-size:.75rem;box-shadow:3px 3px 0 var(--ink);}.fave-note{font-family:'Space Mono',monospace;font-size:.66rem;opacity:.65;}
   @media(max-width:980px){.screen-grid{grid-template-columns:repeat(3,minmax(0,1fr));}}@media(max-width:720px){.screen-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:15px;}.screen-card-inner{min-height:360px}.cover-wrap{height:250px}.fave-form{grid-template-columns:1fr 1fr;}.fave-form input:first-child{grid-column:1/-1;}}@media(max-width:470px){.screen-grid{grid-template-columns:1fr;}.screen-card-inner{min-height:430px}.cover-wrap{height:315px}.fave-form{grid-template-columns:1fr;}.fave-form input,.fave-form select,.fave-form textarea,.fave-form .form-actions{grid-column:1/-1;}}
 
+
+  /* ---- floating animated Chinonye ---- */
+  .chinonye-video-sticker{
+    position:fixed;
+    left:18px;
+    bottom:14px;
+    z-index:940;
+    width:min(180px,34vw);
+    pointer-events:auto;
+    filter:drop-shadow(0 8px 12px rgba(32,19,42,.18));
+  }
+
+  .chinonye-video-frame{
+    position:relative;
+    overflow:hidden;
+    border:2.5px solid var(--ink);
+    border-radius:22px;
+    background:var(--cream);
+    box-shadow:5px 5px 0 var(--pink);
+    transform:rotate(-1deg);
+  }
+
+  .chinonye-video-frame video{
+    width:100%;
+    height:auto;
+    display:block;
+    cursor:pointer;
+  }
+
+  .chinonye-video-label{
+    position:absolute;
+    left:9px;
+    bottom:9px;
+    padding:5px 9px;
+    border:1.8px solid var(--ink);
+    border-radius:999px;
+    background:rgba(255,248,243,.92);
+    color:var(--ink);
+    font-family:'Space Mono',monospace;
+    font-size:.55rem;
+    font-weight:700;
+    pointer-events:none;
+  }
+
+  .chinonye-video-close{
+    position:absolute;
+    top:7px;
+    right:7px;
+    z-index:2;
+    width:27px;
+    height:27px;
+    border:2px solid var(--ink);
+    border-radius:50%;
+    background:rgba(255,248,243,.94);
+    color:var(--ink);
+    font-size:16px;
+    line-height:21px;
+    cursor:pointer;
+    box-shadow:2px 2px 0 var(--ink);
+  }
+
+  .chinonye-video-sticker.hidden{display:none;}
+
+  .chinonye-video-return{
+    display:none;
+    position:fixed;
+    left:14px;
+    bottom:14px;
+    z-index:941;
+    border:2px solid var(--ink);
+    border-radius:999px;
+    padding:8px 12px;
+    background:var(--cream);
+    color:var(--ink);
+    box-shadow:3px 3px 0 var(--pink);
+    font-family:'Space Mono',monospace;
+    font-size:.62rem;
+    font-weight:700;
+    cursor:pointer;
+  }
+
+  .chinonye-video-return.show{display:block;}
+
+  @media(max-width:650px){
+    .chinonye-video-sticker{
+      left:10px;
+      bottom:10px;
+      width:min(132px,32vw);
+    }
+
+    .chinonye-video-label{
+      font-size:.47rem;
+      padding:4px 7px;
+    }
+  }
+
 </style>
 </head>
 <body>
@@ -822,6 +918,42 @@
 </section>
 
 <footer>made by hand(s), by Chinonye Eze</footer>
+
+
+<!-- FLOATING ANIMATED CHINONYE -->
+<div class="chinonye-video-sticker" id="chinonye-video-sticker">
+  <div class="chinonye-video-frame">
+    <button
+      class="chinonye-video-close"
+      id="chinonye-video-close"
+      type="button"
+      aria-label="Hide animated Chinonye"
+    >×</button>
+
+    <video
+      id="chinonye-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-label="Animated Chinonye"
+    >
+      <source src="assets/characters/chinonye-animated.mp4" type="video/mp4">
+    </video>
+
+    <div class="chinonye-video-label">click me to pause ♡</div>
+  </div>
+</div>
+
+<button
+  class="chinonye-video-return"
+  id="chinonye-video-return"
+  type="button"
+>
+  bring Chinonye back ♡
+</button>
+
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
@@ -1645,6 +1777,37 @@ trips.find(t => t.id === 'phoenix').media = [
       });
     });
   }
+
+
+  // floating animated Chinonye controls
+  (function(){
+    const video = document.getElementById('chinonye-video');
+    const sticker = document.getElementById('chinonye-video-sticker');
+    const closeBtn = document.getElementById('chinonye-video-close');
+    const bringBackBtn = document.getElementById('chinonye-video-return');
+
+    if(!video || !sticker || !closeBtn || !bringBackBtn) return;
+
+    video.addEventListener('click', () => {
+      if(video.paused){
+        video.play().catch(() => {});
+      }else{
+        video.pause();
+      }
+    });
+
+    closeBtn.addEventListener('click', () => {
+      video.pause();
+      sticker.classList.add('hidden');
+      bringBackBtn.classList.add('show');
+    });
+
+    bringBackBtn.addEventListener('click', () => {
+      sticker.classList.remove('hidden');
+      bringBackBtn.classList.remove('show');
+      video.play().catch(() => {});
+    });
+  })();
 
 </script>
 
